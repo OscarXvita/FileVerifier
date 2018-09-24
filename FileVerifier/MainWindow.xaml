@@ -12,8 +12,8 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Row="0" x:Name="StatGrid">
-            <TextBlock x:Name="Status" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Select File, Paste Hash and Click Verify!" FontSize="28"></TextBlock>
+        <Grid Row="0" x:Name="StatGrid"  DragDrop.Drop="Grid_Drop" AllowDrop="True">
+            <TextBlock x:Name="Status" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Drop File Here, Paste Hash and Click Verify!" FontSize="28"></TextBlock>
         <Border BorderThickness="0,0,0,2" BorderBrush="Gainsboro">
                 <Label x:Name="Label" Content="by OscarXvita" HorizontalAlignment="Right" Foreground="Gray"/>
             </Border>

@@ -5,7 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Security.Cryptography;
 using System.IO;
-using Ookii.Dialogs.Wpf;
+
+using Microsoft.Win32;
 
 namespace FileVerifier
 {
@@ -31,19 +32,25 @@ namespace FileVerifier
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            VistaOpenFileDialog diag =new VistaOpenFileDialog()
+
+            Microsoft.Win32.OpenFileDialog openFileDialog1 = new Microsoft.Win32.OpenFileDialog();
+
+            
+           // openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.CheckFileExists = true;
+            openFileDialog1.CheckPathExists = true;
+            openFileDialog1.RestoreDirectory = true;
+
+
+            bool? result = openFileDialog1.ShowDialog();
+            if (result == true)
             {
-                
-            };
-            diag.CheckFileExists = true;
-            diag.Multiselect = false;
-            diag.CheckPathExists = true;
-            if (diag.ShowDialog() == true)
-            {
-                var file = diag.FileName;
+                var file = openFileDialog1.FileName;
                 FilePath.Text = file;
-                // Do something with selected folder string
             }
+
+       
         }
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -102,12 +109,15 @@ namespace FileVerifier
         }
         private void vbutton_Click(object sender, RoutedEventArgs e)
         {
-            Filepath = FilePath.Text;
-            Vbutton.Content = "Calculating Checksum...";
-            Vbutton.IsEnabled = false;
             
-            _worker.RunWorkerAsync();
+            Filepath = FilePath.Text;
+            if (File.Exists(Filepath))
+            {
+                Vbutton.Content = "Calculating Checksum...";
+                Vbutton.IsEnabled = false;
 
+                _worker.RunWorkerAsync();
+            }
            
         }
         public string CheckMd5(string filename)
@@ -178,6 +188,17 @@ namespace FileVerifier
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             //
+        }
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                // Note that you can have more than one file.
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var file = files[0];
+                FilePath.Text = file;
+            }
         }
     }
 }
