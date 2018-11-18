@@ -2,11 +2,11 @@
 
 A tiny and simple tool for verifing file checksum (sha1, sha256, md5).
 
-##Licensing
+## Licensing
 
 This project is licensed under the terms of the GPL v3 license.
 
-##Screenshots:
+## Screenshots:
 
 ![image](https://github.com/OscarXvita/FileVerifier/raw/master/Screenshots/Screenshot-1.png)
 
